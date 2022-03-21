@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import ItemQuotes from './ItemQuotes';
 
-function App() {
+const App = () => {
+    const [items,setItems] = useState([])
+
+    const fetchData=()=>{
+        return fetch("https://jsonguide.technologychannel.org/quotes.json")
+        .then((response) => response.json())
+        .then((data) => {
+            setItems(data)
+        })
+    }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <button onClick={()=> fetchData()}>Fetch</button>
+        {items.map((item) => <ItemQuotes text={item.text} author={item.from}/>)}
+    
     </div>
-  );
+  )
 }
 
 export default App;
